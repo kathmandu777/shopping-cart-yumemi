@@ -1,3 +1,14 @@
+*.swp
+package-lock.json
+__pycache__
+.pytest_cache
+.venv
+*.egg-info
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos
 
