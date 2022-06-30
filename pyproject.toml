@@ -6,6 +6,7 @@ authors = ["kathmandu777 <mahhakatomanato@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+aws-cdk-lib = "^2.29.1"
 
 [tool.poetry.dev-dependencies]
 aws-cdk-lib = "^2.29.1"
