@@ -17,6 +17,7 @@
       "aws-cn"
     ],
     "@aws-cdk/core:validateSnapshotRemovalPolicy": true,
+    "base_url": "base_url is not set",
     "stage_name": "prod"
   },
   "watch": {
