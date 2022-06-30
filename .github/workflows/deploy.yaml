@@ -1,0 +1,69 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+      - '.pre-commit-config.yaml'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - '.pre-commit-config.yaml'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-northeast-1
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Assume Role
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume:  ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{env.AWS_REGION}}
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Setup CDK
+        run: npm -g install aws-cdk
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+      - name: Get Python version
+        run: python -V
+      - name: Install Poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Poetry Version and Setup
+        run: |
+          poetry --version
+          poetry config virtualenvs.in-project true
+      - name: Poetry Install Dependencies and activate
+        run: |
+          poetry install --no-interaction --no-dev
+      - name: CDK Diff Check
+        if: contains(github.event_name, 'pull_request')
+        run: |
+          source .venv/bin/activate
+          cdk diff -c base_url="${{ secrets.HOST_URL }}"
+      - name: CDK Deploy
+        if: contains(github.event_name, 'push')
+        run: |
+          source .venv/bin/activate
+          cdk deploy --require-approval never -c base_url="${{ secrets.HOST_URL }}" ShoppingCartYumemiStack

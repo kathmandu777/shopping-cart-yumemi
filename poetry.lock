@@ -2,7 +2,7 @@
 name = "attrs"
 version = "21.4.0"
 description = "Classes Without Boilerplate"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -16,7 +16,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 name = "aws-cdk-lib"
 version = "2.29.1"
 description = "Version 2 of the AWS Cloud Development Kit library"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "~=3.7"
 
@@ -51,7 +51,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 name = "cattrs"
 version = "22.1.0"
 description = "Composable complex class support for attrs and dataclasses."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 
@@ -90,7 +90,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 name = "constructs"
 version = "10.1.42"
 description = "A programming model for software-defined state"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "~=3.7"
 
@@ -110,7 +110,7 @@ python-versions = "*"
 name = "exceptiongroup"
 version = "1.0.0rc8"
 description = "Backport of PEP 654 (exception groups)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -144,7 +144,7 @@ license = ["ukkonen"]
 name = "jsii"
 version = "1.61.0"
 description = "Python client for jsii runtime"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "~=3.7"
 
@@ -210,7 +210,7 @@ virtualenv = ">=20.0.8"
 name = "publication"
 version = "0.0.3"
 description = "Publication helps you maintain public-api-friendly modules by preventing unintentional access to private implementation details via introspection."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -218,7 +218,7 @@ python-versions = "*"
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
@@ -237,7 +237,7 @@ python-versions = ">=3.6"
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -261,7 +261,7 @@ python-versions = ">=3.7"
 name = "typing-extensions"
 version = "4.2.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -286,7 +286,7 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "add00b6109779b7fd140166619abf11a58114cf18e271ad402f7f0b44712f138"
+content-hash = "19ec4589bbc889c81063af51da64ca9ab21c52afeca166b53795a87592258152"
 
 [metadata.files]
 attrs = [
