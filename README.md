@@ -58,3 +58,5 @@ $ pre-commit install
  * `cdk deploy`      deploy this stack to your default AWS account/region
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
+
+Please specify base_url when using the command (`cdk {subcommand} -c base_url="https://example.com/"`).
