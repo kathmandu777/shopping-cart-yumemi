@@ -60,3 +60,79 @@ $ pre-commit install
  * `cdk docs`        open CDK documentation
 
 Please specify base_url when using the command (`cdk {subcommand} -c base_url="https://example.com/"`).
+
+
+## API
+### /login [POST]
+本番環境においては別サーバーで認証をして、そのCookieを使用して本サーバーにアクセスする。今回は別サーバーがないので、仮にこのエンドポイントで認証をしている。
+#### Request
+```json
+{
+    "username": "test1",
+    "password": "test1"
+}
+```
+#### Response
+cookieがセットされます。
+
+### /carts [POST]
+カートを作成する。すでにカートがある場合は、`/carts/{cart_id} [GET]` へリダイレクトされる。
+#### Request
+none
+#### Response
+```json
+{"cart_id": "95ede97e3903457caa2fcf3bf719ad0b", "contents": []}
+```
+
+### /carts/{cart_id} [GET]
+カートを取得する。
+#### Request
+none
+#### Response
+```json
+{
+    "cart_id": "95ede97e3903457caa2fcf3bf719ad0b",
+    "contents": [
+        {
+            "variant_id": "test",
+            "quantity": 3
+        }
+    ]
+}
+```
+
+
+### /carts/{cart_id} [DELETE]
+カートを削除する。
+#### Request
+none
+#### Response
+```json
+"Cart deleted"
+```
+
+### /carts/{cart_id}/contents [PUT]
+カートに商品を追加する。（冪等性などの観点からこのようなAPI形式にしました。）
+#### Request
+```json
+{
+    "contents": [
+        {
+            "variant_id": "test",
+            "quantity": 3
+        }
+    ]
+}
+```
+#### Response
+```json
+{
+    "cart_id": "95ede97e3903457caa2fcf3bf719ad0b",
+    "contents": [
+        {
+            "variant_id": "test",
+            "quantity": 3
+        }
+    ]
+}
+```
