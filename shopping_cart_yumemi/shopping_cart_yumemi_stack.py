@@ -22,45 +22,37 @@ class ShoppingCartYumemiStack(Stack):
             projection_type=dynamodb.ProjectionType.ALL,
         )
 
+        common_attributes = dict(
+            runtime=_lambda.Runtime.PYTHON_3_9,
+            code=_lambda.Code.from_asset("lambda"),
+            memory_size=512,
+        )
         create_cart_func = _lambda.Function(
             self,
             "create-cart",
-            code=_lambda.Code.from_asset("lambda"),
             handler="app.api.handler.create_cart.handler",
-            runtime=_lambda.Runtime.PYTHON_3_9,
             environment={
                 "BASE_URL": self.node.try_get_context("base_url"),
                 "STAGE_NAME": self.node.try_get_context("stage_name"),
             },
+            **common_attributes,
         )
         put_content_func = _lambda.Function(
-            self,
-            "put-content",
-            code=_lambda.Code.from_asset("lambda"),
-            handler="app.api.handler.put_content.handler",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            self, "put-content", handler="app.api.handler.put_content.handler", **common_attributes
         )
         delete_cart_func = _lambda.Function(
             self,
             "delete-cart",
-            code=_lambda.Code.from_asset("lambda"),
             handler="app.api.handler.delete_cart.handler",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            **common_attributes,
         )
         get_cart_func = _lambda.Function(
             self,
             "get-cart",
-            code=_lambda.Code.from_asset("lambda"),
             handler="app.api.handler.get_cart.handler",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            **common_attributes,
         )
-        login_func = _lambda.Function(
-            self,
-            "login",
-            code=_lambda.Code.from_asset("lambda"),
-            handler="app.api.handler.login.handler",
-            runtime=_lambda.Runtime.PYTHON_3_9,
-        )
+        login_func = _lambda.Function(self, "login", handler="app.api.handler.login.handler", **common_attributes)
 
         table.grant_full_access(create_cart_func)
         table.grant_full_access(put_content_func)
