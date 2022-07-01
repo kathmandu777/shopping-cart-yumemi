@@ -17,17 +17,18 @@ def main(event: dict, context: dict) -> dict:
 
     cart, is_created = CartService.create(user_id)
 
-    if is_created:
-        return create_response(200, create_cart_response(cart))
+    # 1ユーザーが持てるカートは1台までのため、すでに存在すればそのカートへリダイレクト
+    if not is_created:
+        redirect_url = os.environ["BASE_URL"] + os.environ["STAGE_NAME"] + "/carts/" + cart.cart_id
+        return create_response(
+            303,
+            f"Redirect to {redirect_url}",
+            {
+                "Location": redirect_url,
+            },
+        )
 
-    redirect_url = os.environ["BASE_URL"] + os.environ["STAGE_NAME"] + "/carts/" + cart.cart_id
-    return create_response(
-        303,
-        f"Redirect to {redirect_url}",
-        {
-            "Location": redirect_url,
-        },
-    )
+    return create_response(200, create_cart_response(cart))
 
 
 def handler(event: dict, context: dict) -> dict:
