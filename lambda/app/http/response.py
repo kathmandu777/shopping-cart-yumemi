@@ -6,7 +6,7 @@ from app.models.cart import Cart, CartContent
 
 
 class DecimalEncoder(json.JSONEncoder):
-    def default(self, obj):
+    def default(self, obj: Any) -> Any:
         if isinstance(obj, Decimal):
             return int(obj)
         return json.JSONEncoder.default(self, obj)

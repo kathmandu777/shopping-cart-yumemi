@@ -2,14 +2,14 @@ import uuid
 from typing import List, Tuple
 
 from app.http.exception import HTTPException
-from app.infra.dynamodb import delete_cart, get_cart_by_cart_id, get_cart_by_user_id, put_cart
+from app.infra.dynamodb import DynamoDB
 from app.models.cart import Cart, CartContent
 
 
 class CartService:
     @staticmethod
     def get(cart_id: str, user_id: str) -> Cart:
-        cart = get_cart_by_cart_id(cart_id)
+        cart = DynamoDB.get_cart_by_cart_id(cart_id)
         if not cart:
             raise HTTPException(404, "Cart not found")
         if cart.user_id != user_id:
@@ -18,28 +18,28 @@ class CartService:
 
     @staticmethod
     def create(user_id: str) -> Tuple[Cart, bool]:
-        cart = get_cart_by_user_id(user_id)
+        cart = DynamoDB.get_cart_by_user_id(user_id)
         if cart:
             return cart, False
 
         cart_id = uuid.uuid4().hex
-        put_cart(cart_id, user_id, [])
-        cart = get_cart_by_cart_id(cart_id)
+        DynamoDB.put_cart(cart_id, user_id, [])
+        cart = DynamoDB.get_cart_by_cart_id(cart_id)
         assert cart
         return cart, True
 
     @staticmethod
     def delete(cart_id: str, user_id: str) -> None:
-        cart = get_cart_by_cart_id(cart_id)
+        cart = DynamoDB.get_cart_by_cart_id(cart_id)
         if not cart:
             raise HTTPException(404, "Cart not found")
         if cart.user_id != user_id:
             raise HTTPException(403, "Forbidden")
-        delete_cart(cart_id)
+        DynamoDB.delete_cart(cart_id)
 
     @staticmethod
     def put(cart_id: str, user_id: str, contents: List[dict]) -> Cart:
-        cart = get_cart_by_cart_id(cart_id)
+        cart = DynamoDB.get_cart_by_cart_id(cart_id)
         if not cart:
             raise HTTPException(404, "Cart not found")
         if cart.user_id != user_id:
@@ -67,7 +67,7 @@ class CartService:
             except KeyError:
                 raise HTTPException(400, "Missing variant_id or quantity")
 
-        put_cart(cart_id, user_id, new_contents)
-        cart = get_cart_by_cart_id(cart_id)
+        DynamoDB.put_cart(cart_id, user_id, new_contents)
+        cart = DynamoDB.get_cart_by_cart_id(cart_id)
         assert cart
         return cart
