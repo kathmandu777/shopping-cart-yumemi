@@ -45,13 +45,25 @@ class CartService:
         if cart.user_id != user_id:
             raise HTTPException(403, "Forbidden")
 
-        new_contents = []
+        new_contents: List[CartContent] = []
         for content in contents:
             try:
                 variant_id = content["variant_id"]
                 # TODO: validation of variant_id
-                quantity = content["quantity"]
-                new_contents.append(CartContent(variant_id, quantity))
+                if variant_id in [c.variant_id for c in new_contents]:
+                    raise HTTPException(400, "Duplicate variant_id")
+
+                try:
+                    quantity = float(content["quantity"])
+                except ValueError:
+                    raise HTTPException(400, "Invalid quantity")
+                if not quantity.is_integer():
+                    raise HTTPException(400, "Invalid quantity")
+                if quantity < 0:
+                    raise HTTPException(400, "Quantity must be greater than 0")
+                if quantity == 0:
+                    continue
+                new_contents.append(CartContent(variant_id, int(quantity)))
             except KeyError:
                 raise HTTPException(400, "Missing variant_id or quantity")
 

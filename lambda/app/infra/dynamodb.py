@@ -11,16 +11,14 @@ table = dynamodb.Table("shopping_carts")
 
 
 def get_cart_by_user_id(user_id: str) -> Optional[Cart]:
-    items = table.query(IndexName="user_id-idx", KeyConditionExpression=Key("user_id").eq(user_id))[  # type: ignore
-        "Items"
-    ]
+    items = table.query(IndexName="user_id-idx", KeyConditionExpression=Key("user_id").eq(user_id))["Items"]
     if not items:
         return None
     return Cart(**items[0])
 
 
 def get_cart_by_cart_id(cart_id: str) -> Optional[Cart]:
-    items = table.query(KeyConditionExpression=Key("cart_id").eq(cart_id))["Items"]  # type: ignore
+    items = table.query(KeyConditionExpression=Key("cart_id").eq(cart_id))["Items"]
     if not items:
         return None
     return Cart(**items[0])
