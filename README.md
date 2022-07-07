@@ -136,3 +136,6 @@ none
     ]
 }
 ```
+
+## Presentation
+発表スライド: [ゆめみインターン発表.pdf](./references/ゆめみインターン発表.pdf)
